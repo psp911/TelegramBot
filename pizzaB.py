@@ -50,6 +50,6 @@ async def bot_message(message: types.Message):
 	else:
 		await message.reply('Неизвестная команда')
 
-if __name__ == '__main__':
+if __name__ == '__pizzaB__':
 	executor.start_polling(dp, skip_updates = True)
 

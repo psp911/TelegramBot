@@ -1,5 +1,5 @@
-# https://www.youtube.com/watch?v=yetfif4j_go&ab_channel=CodeWriter
-# Как сделать меню для Телеграм бота на aiogram Python
+# https://youtu.be/TYs3-uyjC30
+# Telegram бот на python aiogram #1 разработка бота с нуля
 
 import logging
 from aiogram import Bot, Dispatcher, executor, types
@@ -29,6 +29,8 @@ dp=Dispatcher(bot)
 async def command_start(message: types.Message):
 	await bot.send_message(message.from_user.id, "Привет {0.first_name} {0.last_name}".format(message.from_user), reply_markup = nav.mainMenu)
 
+
+
 @dp.message_handler()	
 async def bot_message(message: types.Message):
 	#await bot.send_message(message.from_user.id, message.text)
@@ -50,6 +52,45 @@ async def bot_message(message: types.Message):
 	else:
 		await message.reply('Неизвестная команда')
 
-if __name__ == '__main__':
+#@dp.message_handler(commands=['start', 'help'])
+#async def command_start(message : types.Message):
+#	try:
+#		await bot.send_message(message.from_user.id, 'Приятного аппетита')
+#		await bot.send_message(message.from_user.id, "Привет {0.first_name} {0.last_name}".format(message.from_user), reply_markup = nav.mainMenu)
+#		#await message.delete()
+#	except:
+#		await message.reply('Общение с ботом через ЛС, напишите ему:\nhttps://t.me/Pizza_Sheff_PspBot')
+
+
+
+#@dp.message_handler(commands=['Режим_работы'])
+#async def pizza_open_command(message : types.Message):
+#	await bot.send_message(message.from_user.id, 'Вс-Чт с 9 до 23')
+
+
+
+
+#'*********Админская часть **********
+
+
+
+
+
+#'*********Общая часть **********
+
+
+
+
+
+#@dp.message_handler()
+#async def echo_send(message : types.Message):
+	#await message.answer(message.text)
+	#await message.reply(message.text)
+#	await bot.send_message(message.from_user.id, message.text)
+
+
+
+if __name__ == '__botT__':
 	executor.start_polling(dp, skip_updates = True)
 
+#executor.start_polling(dp, skip_updates=True)
