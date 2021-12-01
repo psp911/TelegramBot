@@ -35,8 +35,8 @@ async def bot_message(message: types.Message):
 	if message.text == 'Рандомное число':
 		await bot.send_message(message.from_user.id, 'Ваше число: ' + str(random.randint(1000,9999)))
 	
-	elif message.text == 'Главное Меню':
-		await bot.send_message(message.from_user.id, 'Главное Меню',  reply_markup = nav.mainMenu)
+	elif message.text == 'Главное меню':
+		await bot.send_message(message.from_user.id, 'Главное меню',  reply_markup = nav.mainMenu)
 	
 	elif message.text == 'Другое':
 		await bot.send_message(message.from_user.id, 'Другое',  reply_markup = nav.otherMenu)
