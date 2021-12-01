@@ -4,5 +4,5 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 # ---- MAIN MeNU ------
-btnRandom = KeyboardButon(' Рандомное число')
+btnRandom = KeyboardButton(' Рандомное число')
 

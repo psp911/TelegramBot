@@ -1,4 +1,3 @@
-# TelegramBot
 Package            Version
 ------------------ ---------
 aiogram            2.16
@@ -14,10 +13,8 @@ idna               3.3
 multidict          5.2.0
 pip                20.3.4
 pkg-resources      0.0.0
+python-dotenv      0.19.2
 pytz               2021.3
 setuptools         44.1.1
 typing-extensions  4.0.0
 yarl               1.7.2
-
-Ура
-
