@@ -24,20 +24,33 @@ bot=Bot(token=TOKEN)
 dp=Dispatcher(bot)
 
 
+async def on_startup(_):
+	print ('Юот вышел в онлайн')
+
+
+#'********* Клиентская часть **********
 
 @dp.message_handler(commands=['start', 'help'])
 async def command_start(message : types.Message):
 	try:
 		await bot.send_message(message.from_user.id, 'Приятного аппетита')
-		await bot.send_message(message.from_user.id, "Привет {0.first_name} {0.last_name}".format(message.from_user), reply_markup = nav.mainMenu)
-		await message.delete()
+		await bot.send_message(message.from_user.id, "Привет {0.first_name} {0.last_name}".format(message.from_user))
+		#await message.delete()
 	except:
-		await message.reply('Общение с ботом через ЛС, напишите ему:\nhttps://t.me/Pizza_Sheff_PspBot')
+		await message.reply('Общение с ботом через ЛС !!!, напишите ему:\nhttps://t.me/Pizza_Sheff_PspBot')
 
 
+@dp.message_handler(commands=['Режим_работы'])
+async def pizza_open_command(message : types.Message):
+	await bot.send_message(message.from_user.id, 'Вс-Чт с 9 до 23')
+
+
+@dp.message_handler(commands=['Расположение'])
+async def pizza_open_command(message : types.Message):
+	await bot.send_message(message.from_user.id, 'Ул.Колбасная 15')
 
 @dp.message_handler()
-async def command_start(message : types.Message):
+async def command_start2(message : types.Message):
 	try:
 		if message.text == "Привет":
 			await message.answer('И тебе привет!')
@@ -46,9 +59,7 @@ async def command_start(message : types.Message):
 
 
 
-@dp.message_handler(commands=['Режим_работы'])
-async def pizza_open_command(message : types.Message):
-	await bot.send_message(message.from_user.id, 'Вс-Чт с 9 до 23')
+
 
 
 
@@ -61,15 +72,11 @@ async def pizza_open_command(message : types.Message):
 
 #'*********Общая часть **********
 
-
-
-
-
-#@dp.message_handler()
-#async def echo_send(message : types.Message):
-	#await message.answer(message.text)
-	#await message.reply(message.text)
-#	await bot.send_message(message.from_user.id, message.text)
+@dp.message_handler()
+async def echo_send(message : types.Message):
+	await message.answer(message.text)
+	await message.reply(message.text)
+	await bot.send_message(message.from_user.id, message.text)
 
 
 
@@ -77,6 +84,6 @@ async def pizza_open_command(message : types.Message):
 
 
 if __name__ == '__main__':
-	executor.start_polling(dp, skip_updates = True)
+	executor.start_polling(dp, skip_updates = True, on_startup=on_startup)
 
 
