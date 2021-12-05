@@ -9,7 +9,7 @@ from aiogram import Bot, Dispatcher, executor, types
 import markups as nav
 import random
 
-import os
+import os, json, string
 from dotenv import load_dotenv
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
@@ -49,13 +49,13 @@ async def pizza_open_command(message : types.Message):
 async def pizza_open_command(message : types.Message):
 	await bot.send_message(message.from_user.id, 'Ул.Колбасная 15')
 
-@dp.message_handler()
-async def command_start2(message : types.Message):
-	try:
-		if message.text == "Привет":
-			await message.answer('И тебе привет!')
-	except:
-		await message.reply('Общение с ботом через ЛС, напишите ему:\nhttps://t.me/Pizza_Sheff_PspBot')
+# @dp.message_handler()
+# async def command_start2(message : types.Message):
+# 	try:
+# 		if message.text == "Привет":
+# 			await message.answer('И тебе привет!')
+# 	except:
+# 		await message.reply('Общение с ботом через ЛС, напишите ему:\nhttps://t.me/Pizza_Sheff_PspBot')
 
 
 
@@ -74,9 +74,17 @@ async def command_start2(message : types.Message):
 
 @dp.message_handler()
 async def echo_send(message : types.Message):
-	await message.answer(message.text)
-	await message.reply(message.text)
-	await bot.send_message(message.from_user.id, message.text)
+	if {i.lower().translate(str.maketrans('','', string.punctuation)) for i in message.text.split(' ')}\
+		.intersection(set(json.load(open('cenz.json')))) != set ():		
+		await message.reply('Маты запрещены')
+		await message.delete()
+	
+
+
+
+	# await message.answer(message.text)
+	# await message.reply(message.text)
+	# await bot.send_message(message.from_user.id, message.text)
 
 
 
