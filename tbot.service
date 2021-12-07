@@ -1,0 +1,16 @@
+[Unit]
+Description=Tbot
+Requires=network.target
+After=systemd-user-sessions.service
+
+[Service]
+Type=simple
+ExecStart=/home/psp/TelegramBot/venv/bin/python3 /home/psp/TelegramBot/bot_telegram.py
+PIDFile=/var/run/tbot.pid
+KillMode=mixed
+TimeoutStopSec=30
+User=root
+LimitNOFILE=100000
+
+[Install]
+WantedBy=multi-user.target
