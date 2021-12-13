@@ -1,12 +1,13 @@
 from aiogram import types, Dispatcher
 from create_bot import dp, bot
+from keyboards import kb_client
 
 
 
 #@dp.message_handler(commands=['start', 'help'])
 async def command_start(message : types.Message):
 	try:
-		await bot.send_message(message.from_user.id, 'Приятного аппетита')
+		await bot.send_message(message.from_user.id, 'Приятного аппетита', reply_markup=kb_client)
 		await bot.send_message(message.from_user.id, "Привет {0.first_name} {0.last_name}".format(message.from_user))
 		#await message.delete()
 	except:
