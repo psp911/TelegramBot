@@ -1,5 +1,5 @@
 # https://youtu.be/TYs3-uyjC30
-# Telegram бот на python aiogram #1 разработка бота с нуля
+
 
 import logging
 from aiogram.utils import executor
