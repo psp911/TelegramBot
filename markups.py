@@ -11,6 +11,12 @@ btnRandom = KeyboardButton('Рандомное число')
 btnOther = KeyboardButton('Другое')
 mainMenu = ReplyKeyboardMarkup(resize_keyboard = True).add(btnRandom, btnOther)
 
+#  ==Создать тренировку==   ==Редактировать тренировку==
+#
+#  Создать тренировку: Анонс, Дата, Время, Локация, Участники
+#
+#  Редактировать тренировку: Анонс, Дату, Время, Локация, Участники, Удалить тренировку
+
 # ---- Other MeNU ------
 btnInfo = KeyboardButton('Информация')
 btnMoney = KeyboardButton('Курс валют')
