@@ -4,17 +4,19 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from create_bot import dp, bot
 from data_base import sqlite_db
 from keyboards import admin_kb
+from aiogram.dispatcher.filters import Text
 
 ID = None
 
 class FSMAdmin(StatesGroup):
-    photo = State()
+    #photo = State()
+    location= State()
     name = State()
     description = State()
     price = State()
 
-# Получаем ID текущего пользователя
-@dp.message_handler(commands=['moderator'], is_chat_admin=True)
+# Получаем ID текущего пользователя - это проверка на модератора
+#@dp.message_handler(commands=['moderator'], is_chat_admin=True)
 async def make_changes_commnd(message: types.Message):
     global ID
     ID = message.from_user.id
@@ -28,53 +30,84 @@ async def make_changes_commnd(message: types.Message):
 # Начало диалога загрузки нового пункта меню
 #@dp.message_handler(commands='Загрузить', state=None)
 async def cm_start(message: types.Message):
-    await FSMAdmin.photo.set()
-    await message.reply('Загрузи фото')
+    if message.from_user.id == ID:
+        #await FSMAdmin.photo.set()
+        #await message.reply('Загрузи фото')
+        await FSMAdmin.location.set()
+        await message.reply('Локация')
 
 # Ловим первый ответ и пишем словарь
 #@dp.message_handler(content_types=['photo'], state=FSMAdmin.photo)
 async def load_photo(message: types.Message, state:FSMContext):
-    async with state.proxy() as data:
-        data['photo'] = message.photo[0].file_id
-    await FSMAdmin.next()
-    await message.reply('Теперь введи название')
+    if message.from_user.id == ID:
+        async with state.proxy() as data:
+            #data['photo'] = message.photo[0].file_id
+            data['location'] = message.text
+        await FSMAdmin.next()
+        await message.reply('Теперь введи название')
+    else:
+        await message.reply('Теперь введи название sdfdsf')
 
 # Ловим второй ответ и пишем словарь
 #@dp.message_handler(state=FSMAdmin.name)
 async def load_name(message: types.Message, state:FSMContext):
-    async with state.proxy() as data:
-        data['name'] = message.text
-    await FSMAdmin.next()
-    await message.reply('Введи описание')
+    if message.from_user.id == ID:
+        async with state.proxy() as data:
+            data['name'] = message.text
+        await FSMAdmin.next()
+        await message.reply('Введи описание')
 
 # Ловим третий ответ и пишем словарь
 #@dp.message_handler(state=FSMAdmin.description)
 async def load_desscription(message: types.Message, state:FSMContext):
-    async with state.proxy() as data:
-        data['description'] = message.text
-    await FSMAdmin.next()
-    await message.reply('Теперь укажи цену')
+    if message.from_user.id == ID:
+        async with state.proxy() as data:
+            data['description'] = message.text
+        await FSMAdmin.next()
+        await message.reply('Теперь укажи цену')
 
 # Ловим 4 ответ и пишем словарь
 #@dp.message_handler(state=FSMAdmin.price)
 async def load_price(message: types.Message, state:FSMContext):
-    async with state.proxy() as data:
-        data['price'] = float(message.text)
+    if message.from_user.id == ID:
+        async with state.proxy() as data:
+            data['price'] = float(message.text)
 
-    async with state.proxy() as data:
-        await message.reply(str(data))
+        async with state.proxy() as data:
+            await message.reply(str(data))
 
-    await sqlite_db.sql_add_command(state)
+        await sqlite_db.sql_add_command(state)
 
+        await state.finish()
+
+
+# Выход из состояний
+#@dp.message_handler(state="*", commands='отмена')
+#@dp.message_handler(Text(equals='отмена', ignore_case=True), state='*')
+async def cancel_handler(message:types.Message, state:FSMContext):
+    current_state = await state.get_state()
+    if current_state is None:
+        return
     await state.finish()
+    await message.reply('OK')
+
+
+
+
+
 
 # Регистритуем хендлеры
 def register_handlers_admin(dp : Dispatcher):
-    dp.register_message_handler(cm_start, commands=['Загрузить'], state=None)
-    dp.register_message_handler(load_photo, content_types=['photo'], state=FSMAdmin.photo)
+    #dp.register_message_handler(cm_start, commands=['Загрузить'], state=None)
+    #dp.register_message_handler(load_photo, content_types=['photo'], state=FSMAdmin.photo)
+    dp.register_message_handler(cm_start, commands=['Создать'], state=None)
+    dp.register_message_handler(load_photo, state=FSMAdmin.location)
     dp.register_message_handler(load_name, state=FSMAdmin.name)
     dp.register_message_handler(load_desscription, state=FSMAdmin.description)
     dp.register_message_handler(load_price, state=FSMAdmin.price)
+    dp.register_message_handler(cancel_handler,state="*", commands='отмена')
+    dp.register_message_handler(cancel_handler,Text(equals='отмена', ignore_case=True), state='*')
+    dp.register_message_handler(make_changes_commnd,commands=['moderator'], is_chat_admin=True)
 
 
 

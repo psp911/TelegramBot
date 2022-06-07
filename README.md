@@ -1,4 +1,11 @@
 
+Как добавить новую машину к Гитхабу - авторизация SSH
+https://docs.github.com/en/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys
+
+
+Клонировать репозиторий на новую машину 
+git clone git@github.com:psp911/TelegramBot.git
+
 
 Создание виртуальной среды
 python3 -m venv venv
