@@ -100,13 +100,14 @@ async def cancel_handler(message:types.Message, state:FSMContext):
 def register_handlers_admin(dp : Dispatcher):
     #dp.register_message_handler(cm_start, commands=['Загрузить'], state=None)
     #dp.register_message_handler(load_photo, content_types=['photo'], state=FSMAdmin.photo)
+    dp.register_message_handler(cancel_handler,state="*", commands='отмена')
+    dp.register_message_handler(cancel_handler,Text(equals='отмена', ignore_case=True), state='*')
+
     dp.register_message_handler(cm_start, commands=['Создать'], state=None)
     dp.register_message_handler(load_photo, state=FSMAdmin.location)
     dp.register_message_handler(load_name, state=FSMAdmin.name)
     dp.register_message_handler(load_desscription, state=FSMAdmin.description)
     dp.register_message_handler(load_price, state=FSMAdmin.price)
-    dp.register_message_handler(cancel_handler,state="*", commands='отмена')
-    dp.register_message_handler(cancel_handler,Text(equals='отмена', ignore_case=True), state='*')
     dp.register_message_handler(make_changes_commnd,commands=['moderator'], is_chat_admin=True)
 
 
